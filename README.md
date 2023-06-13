@@ -48,3 +48,16 @@ Para a entrega do projeto, certifique-se que tudo esteja em ambiente docker, pre
 - Layout do front-end
 - CSS
 - Habilidade com Javascript (conseguindo realizar as chamadas à API estará 'good enough')
+
+## Prazo para entrega do desafio
+
+Consideramos que o prazo ideal para entrega desse desafio é de 1 semana, mas caso precise de mais tempo, favor avisar através do e-mail code-challenge@digitalsys.com.br
+
+## Como devo enviar o código feito?
+
+Para enviar o desafio, por favor nos envie o link de seu github no e-mail code-challenge@digitalsys.com.br.
+
+### Boa sorte =) 
+
+
+
