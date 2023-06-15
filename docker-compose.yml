@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  api:
+    container_name: api_container
+    build:
+        context: .
+        dockerfile: Dockerfiledjango
+    env_file:
+      - .env
+    network_mode: host
+    hostname: api
+    volumes:
+      - .:/app
+  frontend:
+    container_name: frontend_container
+    build:
+        context: ./frontend
+        dockerfile: Dockerfile
+    env_file:
+      - .env
+    network_mode: host
+    hostname: frontend
+    volumes:
+      - .:/app
+networks:
+    default:
+
+      ipam:
+        driver: default
+        config:
+            - subnet: 172.20.0.0/24
+
+
+
+
