@@ -1,6 +1,5 @@
 from rest_framework import viewsets
-from apps.cadastros.api.serializers import *
-
+from apps.cadastros.api.serializers import*
 
 class CamposViewSet(viewsets.ModelViewSet):
     queryset = CamposModel.objects.all()
