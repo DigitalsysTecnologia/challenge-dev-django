@@ -3,13 +3,14 @@
 *.pot
 *.pyc
 __pycache__
-db.sqlite3
 media
 /misc.xml
 /.idea/inspectionProfiles/Project_Default.xml
 *.iml
 # Backup files #
 *.bak
+
+.queue
 
 # If you are using PyCharm #
 .idea/**/workspace.xml
@@ -129,6 +130,5 @@ env
 local_settings.py
 _local_settings.py
 gunicorn-error-log
-db.sqlite3
 db copy.sqlite3
 static/

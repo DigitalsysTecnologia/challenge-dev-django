@@ -6,6 +6,10 @@ Este é um desafio técnico para criar um sistema de gestão de propostas de emp
 - Django Rest Framework
 - Django Celery
 
+celery -A sgpep worker --loglevel=info -P threads 
+<br>
+celery -A sgpep flower --address=127.0.0.6 --port=5556
+
 ## Desafio
 
 O objetivo deste desafio é criar um sistema onde os usuários possam cadastrar propostas de empréstimo pessoal e realizar sua avaliação através de uma fila RabbitMQ utilizando o Django Celery.
