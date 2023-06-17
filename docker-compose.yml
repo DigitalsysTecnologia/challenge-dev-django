@@ -1,0 +1,58 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  api:
+    container_name: api_container
+    build:
+        context: .
+        dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    hostname: api
+    volumes:
+      - .:/app
+    depends_on:
+      - rabbitmq
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+    volumes:
+      - .:/code
+    command: celery -A propostas worker --loglevel=info
+  frontend:
+    container_name: frontend_container
+    build:
+        context: frontend
+        dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    hostname: frontend
+    volumes:
+      - ./frontend:/app/frontend
+
+
+
+networks:
+    default:
+
+      ipam:
+        driver: default
+        config:
+            - subnet: 172.20.0.0/24
+
+
+
+
