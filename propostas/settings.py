@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-o%1r02d#i+qhu53*n71h%x^xqz6+bt4@w#ok(f8=0%9p(9z2cj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -147,3 +147,6 @@ CORS_ALLOW_METHODS = [
 ]
 
 
+#Ajustes do Celery
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbit:5672//'  # URL do RabbitMQ
+CELERY_RESULT_BACKEND = 'rpc://'
