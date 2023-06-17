@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+import ProTip from './components/ProTip';
+import { Collapse, Grid } from '@mui/material';
+import { Outlet } from "react-router-dom";
+import ResponsiveAppBar from './components/ResponsiveAppBar';
 
-function App() {
+
+function Copyright() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Typography variant="body2" color="text.secondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" href="https://www.linkedin.com/in/niloaires/">
+        Nilo Aires jr.
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Container maxWidth="lg">
+      <ResponsiveAppBar></ResponsiveAppBar>
+      <Container>
+        <Outlet />
+      </Container>
+        
+      
+    
+      <Copyright/>
+   
+    
+    </Container>
+    
+  );
+}

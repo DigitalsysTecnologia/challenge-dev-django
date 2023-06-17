@@ -1,7 +1,8 @@
 from django.urls import include
 from rest_framework.urls import path
-from .viewsets import CamposViewSet, PropostasViewSet
+from .viewsets import view_campos, view_propostas
 urlpatterns = [
-    path("", PropostasViewSet.as_view({"get": "list"})),
-    path("campos", CamposViewSet.as_view({"get": "list"})),
+    path("propostas", view_propostas),
+    path("campos", view_campos),
+
 ]

@@ -1,6 +1,7 @@
 from django.contrib import admin
-from apps.cadastros.models import CamposModel, PropostasModel
-from apps.cadastros.forms import CamposForm, PropostasForm
+from apps.cadastros.models import CamposModel, PropostasModel, \
+    RespostasCamposModels
+from apps.cadastros.forms import CamposForm
 
 
 # Register your models here.
@@ -15,9 +16,9 @@ class CamposAdmin(admin.ModelAdmin):
 
 
 class PropostasAdmin(admin.ModelAdmin):
-
-    form = PropostasForm
+    list_display = ['__str__', 'data_registro', 'status', 'data_avaliacao']
 
 
 admin.site.register(CamposModel, CamposAdmin)
 admin.site.register(PropostasModel, PropostasAdmin)
+admin.site.register(RespostasCamposModels)
