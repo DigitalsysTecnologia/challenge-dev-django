@@ -1,0 +1,12 @@
+Django
+gunicorn
+django-celery-results
+django-filter
+django-debug-toolbar
+djangorestframework
+flower
+celery
+djangorestframework-simplejwt
+whitenoise
+psycopg2
+django-cors-headers
