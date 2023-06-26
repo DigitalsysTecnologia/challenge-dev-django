@@ -1,67 +1,90 @@
-# Sistema de Gestão de Propostas de Empréstimo Pessoal
+<h2>Para rodar o projetos</h2>
 
-Este é um desafio técnico para criar um sistema de gestão de propostas de empréstimo pessoal utilizando a seguinte stack:
+Numa máquina que possuo Docker:
 
-- Django
-- Django Rest Framework
-- Django Celery
+- No terminal digite o comando:
+  - ```commandline
+    docker-compose up -d
+    ```
 
-celery -A sgpep worker --loglevel=info -P threads 
-<br>
-celery -A sgpep flower --address=127.0.0.6 --port=5556
+O frontend estará rodando no link: http://localhost:5173/
 
-## Desafio
+O backend estará rodando no link: http://localhost:8000/
 
-O objetivo deste desafio é criar um sistema onde os usuários possam cadastrar propostas de empréstimo pessoal e realizar sua avaliação através de uma fila RabbitMQ utilizando o Django Celery.
+- É possível acessar o admin do Django pelo link http://localhost:8000/admin
+- As credenciais de acesso são admin e admin, como login e senha.
 
-### Estrutura da Proposta
+O CLI do RabbitMQ estará rodando no link: http://localhost:15672/
 
-O administrador do sistema poderá cadastrar os campos que devem constar na proposta através do django-admin. Por exemplo, os seguintes campos podem ser cadastrados:
+- Você poderá logar utilizando as credenciais admin e mypass, como login e senha respectivamente.
 
-- Nome Completo
-- CPF
-- Endereço
-- Valor do Empréstimo Pretendido
+O Flower - Sistema de monitoração de fila estará rodando no link: http://localhost:5555
 
-### Página de Preenchimento da Proposta
+<h4>Rotas disponívels</h4>
+URL: http://localhost:8000/api/v1/proposals/<br>
+Método: GET<br>
+Descrição: Retorna lista das propostas feitas.<br>
+Exemplo de retorno:<br>
 
-Deve ser criada uma página onde o possível cliente poderá preencher a proposta, utilizando os campos cadastrados anteriormente. É importante ressaltar que o frontend não deve fazer comunicação direta com o Django, toda a comunicação deve ser feita através do Django Rest Framework. O desenvolvedor pode utilizar um framework de sua preferência, como React, Vue, Angular, ou mesmo HTML com JS.
+```json
+[
+  {
+    "value": 12.0,
+    "accepted": false,
+    "user": {
+      "name": "Willian Ribeiro dos Santos",
+      "cpf": "teste",
+      "address": "QE 44 CONJUNTO I CASA 10"
+    }
+  },
+  {
+    "value": 17.0,
+    "accepted": true,
+    "user": {
+      "name": "Willian Ribeiro dos Santos",
+      "cpf": "teste",
+      "address": "QE 44 CONJUNTO I CASA 10"
+    }
+  }
+]
+```
 
-### Avaliação da Proposta
+URL: http://localhost:8000/api/v1/proposals/<br>
+Método: POST<br>
+Descrição: Envia nova proposta sem uso do sistema de filas <br>
+Body:
 
-Após o preenchimento da proposta, a API deve registrar as informações no banco de dados e enviar a proposta para uma fila RabbitMQ. O Django Celery será responsável por avaliar a proposta, atribuindo um status de "Negada" ou "Aprovada". Para fins de teste, desenvolva um algoritmo onde metade das propostas serão negadas e metade serão aprovadas. Após a avaliação, o Django Celery deverá atualizar o status da proposta no banco de dados.
+```json
+{
+  "value": 4,
+  "user": {
+    "name": "4",
+    "cpf": "4",
+    "address": "4"
+  }
+}
+```
 
-### Visualização no Admin
+URL: http://localhost:8000/api/v1/proposals/celery<br>
+Método: POST<br>
+Descrição: Envia nova proposta utilizando sistema de filas <br>
+Body:
 
-Dentro do Admin, será possível visualizar as propostas cadastradas juntamente com seus respectivos status, indicando se foram "Aprovadas" ou "Negadas".
+```json
+{
+  "value": 4,
+  "user": {
+    "name": "4",
+    "cpf": "4",
+    "address": "4"
+  }
+}
+```
 
-## Requisitos da Entrega do Projeto
+Exemplo de retorno:
 
-Para a entrega do projeto, certifique-se que tudo esteja em ambiente docker, preferencialmente, crie um docker-compose.yaml para que o projeto seja executado do modo mais simples possível, não se esqueça também dos seguintes detalhes
-
-1. Crie um README com as orientações para executar seu projeto
-2. Crie um usuário / senha padrão para o admin do sistema
-3. Caso algo em seu código não esteja inteligível, por favor, comente o trecho, imagine que outras pessoas darão manutenção no sistema
-
-## O que será avaliado no seu código
-- Organização do código
-- Separação de responsabilidades e manutenabilidade do sistema
-- Bom funcionamento e performance
-
-## O que *NÃO* será avaliado no seu código
-- Layout do front-end
-- CSS
-- Habilidade com Javascript (conseguindo realizar as chamadas à API estará 'good enough')
-
-## Prazo para entrega do desafio
-
-Consideramos que o prazo ideal para entrega desse desafio é de 1 semana, mas caso precise de mais tempo, favor avisar através do e-mail code-challenge@digitalsys.com.br
-
-## Como devo enviar o código feito?
-
-Para enviar o desafio, por favor nos envie o link de seu github no e-mail code-challenge@digitalsys.com.br.
-
-### Boa sorte =) 
-
-
-
+```json
+{
+  "proposal": "18c60fca-b073-49d1-a755-5ad852accb85"
+}
+```

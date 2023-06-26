@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./backend
+    container_name: server
+    hostname: server
+    ports:
+      - "8000:8000"
+      - "5556:5556"
+      - "8888:8888"
+    depends_on:
+      - rabbitmq
+    command: ./entrypoint.sh
+    networks:
+      - main
+  
+  monitor:
+    image: mher/flower:0.9.5
+    command:  flower --address=0.0.0.0 --port=5555 --broker=amqp://admin:mypass@rabbitmq:5672 --broker_api=http://admin:mypass@rabbitmq:15672/api
+    environment:
+      CELERY_BROKER_URL: amqp://admin:mypass@rabbitmq:5672
+      CELERY_BROKER_API_URL: http://admin:mypass@rabbitmq:15672/api
+    ports:
+      - 5555:5555
+    networks:
+      - main
+
+  celeryworker:
+    container_name: celeryworker
+    build: ./backend
+    volumes:
+      - ./:/backend
+    command: ./run_celery.sh
+    depends_on:
+      - rabbitmq
+    networks:
+      - main
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - main
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  database:
+    container_name: database
+    hostname: database
+    restart: always
+    image: postgres:12.7-alpine
+    environment:
+      - POSTGRES_DB=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - main
+  
+  client:
+    build:
+      context: ./frontend/vite-project
+    container_name: client
+    hostname: client
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+    command: ./entrypoint.sh
+    networks:
+      - main
+
+networks:
+  main:
+    driver: bridge
+
+volumes:
+  db_data:
+  rabbitmq_data:
